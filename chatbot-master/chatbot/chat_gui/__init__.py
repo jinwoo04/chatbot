@@ -4,7 +4,7 @@ from tkinter import Tk, Canvas, Frame, Label, \
 from tkinter.constants import DISABLED, NORMAL, RIGHT
 from threading import Thread, Event
 from time import sleep
-
+from deep_translator import GoogleTranslator
 
 class ChatGUI:
     def __init__(self, callback, first_message="welcome to ChatBotAI", terminate="quit"):
@@ -17,6 +17,11 @@ class ChatGUI:
 
         Canvas is used to create the window. Each message is created as
         """
+
+        self.translator_kr_en = GoogleTranslator(source='ko', target='en')
+        self.translator_en_kr = GoogleTranslator(source='en', target='ko')
+
+
         # media path for bot images
         self.data_path = path.join(path.dirname(path.dirname(path.abspath(__file__))), "media")
 
@@ -156,7 +161,9 @@ class ChatGUI:
         """
         Call the bot handler and add the result to bot_message
         """
+        message = self.translator_kr_en.translate(message)
         bot_message = self.callback(message)
+        bot_message = self.translator_en_kr.translate(bot_message)
         while not self.thread_event.is_set():
             sleep(0.1)
         self.add_bot_message(bot_message)

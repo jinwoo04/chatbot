@@ -3,6 +3,10 @@
     {% response %}{% call weather_in: %query %}{% endresponse %}
 {% endblock %}
 
+{% block %}
+    {% client %}(do you know about|who is|what is) (?P<query>.*){% endclient %}
+    {% response %}{% call wiki: %query %}{% endresponse %}
+{% endblock %}
 
 {% block %}
     {% client %}(Do you know|Do you have any idea) (?P<query>.*){% endclient %}
